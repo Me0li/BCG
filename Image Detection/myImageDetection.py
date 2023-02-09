@@ -1,21 +1,37 @@
 import cv2 as cv
 import numpy as np
-import os
 from time import time
 from myWindowcapture import WindowCapture
+
+from mss import mss
+from PIL import Image
+
+import torch
+from matplotlib import pyplot as plt
+
+import ctypes
+import uuid                             # Unique identifier
+import os
+
+# model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 # Change the working directory to the folder this script is in.
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # initialize the WindowCapture class
-wincap = WindowCapture('Voicemod')
+wincap = WindowCapture()
 
-myWindows = wincap.list_window_names()
-print(myWindows)
+# List all Windows if you want to capture a specific window
+# myWindows = WindowCapture.list_window_names()
+# print(myWindows)
+
+# Collect 20 Screenshots of each label
+wincap.collect_screenshots()
+exit()
 
 loop_time = time()
-while(True):
 
+while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
 
