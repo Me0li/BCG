@@ -21,6 +21,10 @@ wincap = WindowCapture()
 # wincap.collect_screenshots()
 # exit()
 
+# Collect 20 Screenshots of each label
+# wincap.collect_screenshots_keyPress()
+# exit()
+
 loop_time = time()
 
 while(True):

@@ -12,7 +12,7 @@ import uuid                             # Unique identifier
 import os
 
 IMAGES_PATH = os.path.join('data', 'images')    # /data/images
-labels = ['obstacle', 'coin', 'player', 'turnRight', 'turnLeft']
+labels = ['obstacle', 'coin', 'player', 'turnRight', 'turnLeft', 'explosion']
 number_imgs = 20
 
 # Loop through labels

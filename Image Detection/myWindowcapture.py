@@ -5,7 +5,7 @@ import cv2 as cv
 import uuid     # Unique identifier
 import os
 import time as t
-
+from sshkeyboard import listen_keyboard
 
 class WindowCapture:
 
@@ -17,6 +17,7 @@ class WindowCapture:
     cropped_y = 0
     offset_x = 0
     offset_y = 0
+    c = 0
 
     # constructor
     def __init__(self, window_name=None):
@@ -55,9 +56,8 @@ class WindowCapture:
         return img_bgr
     
     def collect_screenshots(self):
-        print('ja ich bin da')
         IMAGES_PATH = os.path.join('data', 'images')    # /data/images
-        labels = ['obstacle', 'coin', 'player', 'turnRight', 'turnLeft']
+        labels = ['obstacle', 'coin', 'player', 'turnRight', 'turnLeft', 'explosion']
         number_imgs = 20
 
         # Loop through labels
@@ -77,6 +77,48 @@ class WindowCapture:
                 img.save(imgname)
                 t.sleep(2)
         print('Done.')
+
+    def collect_screenshots_keyPress(self):
+        IMAGES_PATH = os.path.join('data', 'images')    # /data/images
+        labels = ['turnRight', 'turnLeft', 'explosion']
+        number_imgs = 20
+        ct = 0
+
+        def press(key):
+            if key == "s":
+                if self.c < 21:
+                    print(f'Collection images for {labels[0]}, image number {self.c}')
+                    # Screen Feed
+                    img = ImageGrab.grab(bbox=(0, 0, self.w, self.h))
+
+                    # Naming out image path
+                    imgname = os.path.join(IMAGES_PATH, labels[0]+'.'+str(uuid.uuid1())+'.jpg')
+                    img.save(imgname)
+                    self.c += 1
+                if self.c < 41 and self.c >= 20:
+                    print(f'Collection images for {labels[1]}, image number {self.c}')
+                    # Screen Feed
+                    img = ImageGrab.grab(bbox=(0, 0, self.w, self.h))
+        
+                    # Naming out image path
+                    imgname = os.path.join(IMAGES_PATH, labels[1]+'.'+str(uuid.uuid1())+'.jpg')
+                    img.save(imgname)
+                    self.c += 1
+                if self.c < 61 and self.c >= 40:
+                    print(f'Collection images for {labels[2]}, image number {self.c}')
+                    # Screen Feed
+                    img = ImageGrab.grab(bbox=(0, 0, self.w, self.h))
+        
+                    # Naming out image path
+                    imgname = os.path.join(IMAGES_PATH, labels[2]+'.'+str(uuid.uuid1())+'.jpg')
+                    img.save(imgname)
+                    self.c += 1
+
+        listen_keyboard(
+            on_press=press
+        )
+
+        print('Done.') 
 
     # find the name of the window you're interested in.
     # once you have it, update window_capture()
