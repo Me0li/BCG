@@ -3,14 +3,6 @@ import numpy as np
 from time import time
 from myWindowcapture import WindowCapture
 
-from mss import mss
-from PIL import Image
-
-import torch
-from matplotlib import pyplot as plt
-
-import ctypes
-import uuid                             # Unique identifier
 import os
 
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
@@ -26,8 +18,8 @@ wincap = WindowCapture()
 # print(myWindows)
 
 # Collect 20 Screenshots of each label
-wincap.collect_screenshots()
-exit()
+# wincap.collect_screenshots()
+# exit()
 
 loop_time = time()
 
