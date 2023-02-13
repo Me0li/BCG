@@ -40,10 +40,11 @@ while(True):
     results = model(screenshot)
 
     #cv.imshow('Image Detection', screenshot)
-    cv.imshow('Image Detection', results.render())
+    cv.imshow('Image Detection', np.squeeze(results.render()))
 
     # debug the loop rate
-    print('FPS {}'.format(1 / (time() - loop_time)))
+    print(f'FPS: {format(1 / (time() - loop_time))}')
+    print(f'resultsxyxy: {results.xyxy}')
     loop_time = time()
 
     # press 'q' with the output window focused to exit.
