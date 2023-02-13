@@ -5,6 +5,10 @@ from myWindowcapture import WindowCapture
 
 import os
 
+import torch
+from matplotlib import pyplot as plt
+import numpy as np
+
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 # Change the working directory to the folder this script is in.
@@ -26,12 +30,17 @@ wincap = WindowCapture()
 # exit()
 
 loop_time = time()
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp15/weights/last.pt', force_reload=True) 
+#img = os.path.join('data', 'images', 'coin.4e67dcfe-a881-11ed-9fa9-2cf05d27a47e.jpg') 
 
 while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
 
-    cv.imshow('Image Detection', screenshot)
+    results = model(screenshot)
+
+    #cv.imshow('Image Detection', screenshot)
+    cv.imshow('Image Detection', results.render())
 
     # debug the loop rate
     print('FPS {}'.format(1 / (time() - loop_time)))
