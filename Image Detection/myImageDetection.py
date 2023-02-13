@@ -30,7 +30,7 @@ wincap = WindowCapture()
 # exit()
 
 loop_time = time()
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp15/weights/last.pt', force_reload=True) 
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp14/weights/last.pt', force_reload=True) 
 #img = os.path.join('data', 'images', 'coin.4e67dcfe-a881-11ed-9fa9-2cf05d27a47e.jpg') 
 
 while(True):
@@ -44,7 +44,7 @@ while(True):
 
     # debug the loop rate
     print(f'FPS: {format(1 / (time() - loop_time))}')
-    print(f'resultsxyxy: {results.xyxy}')
+    print(f"resultsxyxy: {results.xyxy}")
     loop_time = time()
 
     # press 'q' with the output window focused to exit.

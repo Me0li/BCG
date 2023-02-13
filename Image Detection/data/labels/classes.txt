@@ -14,7 +14,6 @@ pulled pork
 hamburger
 cavity
 coin
-explosion
 obstacle
 player
 turnLeft
