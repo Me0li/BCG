@@ -7,6 +7,8 @@ import os
 
 import torch
 
+from read_output import get_BB_cords
+
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 # Change the working directory to the folder this script is in.
@@ -31,11 +33,27 @@ loop_time = time()
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp19/weights/last.pt', force_reload=True) 
 #img = os.path.join('data', 'images', 'coin.4e67dcfe-a881-11ed-9fa9-2cf05d27a47e.jpg') 
 
+global_list = []
+
 while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
 
     results = model(screenshot)
+
+    re_df = results.pandas().xyxy[0]
+    one_frame = get_BB_cords(re_df)
+
+    if len(global_list) < 10:
+       global_list.append(one_frame)
+       print(f'global_list: {len(global_list)}')
+    else:
+       # brechnung(global_list)
+       print("----------------------------------------------------------------------")
+       global_list.clear()
+       #print(len(global_list))
+       global_list.append(one_frame)
+       print(f'global_list: {len(global_list)}')
 
     #cv.imshow('Image Detection', screenshot)
     imgResize = cv.resize(np.squeeze(results.render()), (1280, 720))
