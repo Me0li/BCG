@@ -4,7 +4,18 @@ Dependencies:
 * Python 3.9
 * Anaconda 2022.05 (10. Mai 2022)
 
-* Yolov5
+* yolov5
+* cv2
+* numpy
+* time
+* os
+* torch
+* win32gui
+* win32ui
+* win32con
+* pillow
+* uuid
+* sshkeyboard
 
 Einrichten und aktivieren der virtuellen Umgebung:<br>
 1) conda create --name <envname> python=3.9 <br>

@@ -6,7 +6,6 @@ from myWindowcapture import WindowCapture
 import os
 
 import torch
-import numpy as np
 
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
