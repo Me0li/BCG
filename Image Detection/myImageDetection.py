@@ -6,7 +6,6 @@ from myWindowcapture import WindowCapture
 import os
 
 import torch
-from matplotlib import pyplot as plt
 import numpy as np
 
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
@@ -30,7 +29,7 @@ wincap = WindowCapture()
 # exit()
 
 loop_time = time()
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp14/weights/last.pt', force_reload=True) 
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp19/weights/last.pt', force_reload=True) 
 #img = os.path.join('data', 'images', 'coin.4e67dcfe-a881-11ed-9fa9-2cf05d27a47e.jpg') 
 
 while(True):
@@ -40,11 +39,12 @@ while(True):
     results = model(screenshot)
 
     #cv.imshow('Image Detection', screenshot)
-    cv.imshow('Image Detection', np.squeeze(results.render()))
+    imgResize = cv.resize(np.squeeze(results.render()), (1280, 720))
+    cv.imshow('Image Detection', imgResize)
 
     # debug the loop rate
     print(f'FPS: {format(1 / (time() - loop_time))}')
-    print(f"resultsxyxy: {results.xyxy}")
+    print(f'resultsxyxy: {results.xyxy}')
     loop_time = time()
 
     # press 'q' with the output window focused to exit.
