@@ -6,7 +6,7 @@ import numpy as np
 from collections import deque
 # TODO: Imports from image_detection
 from image_detection.myImageDetection import get_ten_frames
-# from image_detection.calculations import 
+from image_detection.calculations import calculate_state
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -88,10 +88,10 @@ def train():
         # 1) Get 10 frames (from CNN)
         ten_frames = get_ten_frames()
         
-        '''
         # 2) Get old state (from calculations based on 10 frames) => example: [0,0,1,1,0 ...]
         state_old = calculate_state(ten_frames)
-            
+        
+        '''
         # 3) Get action (from DQN with old state) => example: [1,0] = move left, [0,1] = move right
         action = get_action()
             
@@ -103,10 +103,11 @@ def train():
         ten_frames.clear()
         ten_frames = get_ten_frames()
         
-        '''  
+        
         # 7) Get new state (from calculations based on new 10 frames) => example: [0,0,1,1,0 ...]
-        state_new = calculate_states()
-            
+        state_new = calculate_state(ten_frames)
+        
+        '''
         # 8) Get reward and game_over (from calculations based on state_new)
         reward = get_reward()
         game_over = get_game_over()
