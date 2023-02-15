@@ -17,10 +17,10 @@ results = model(img)
 results.print()
 
 re_df = results.pandas().xyxy[0]
-one_frame = get_BB_cords(re_df)
-print(one_frame)
+# one_frame = get_BB_cords(re_df)
+# print(one_frame)
 
-print(check_go(one_frame))
+# print(check_go(one_frame))
 
 
 imgResize = cv2.resize(np.squeeze(results.render()), (1280, 720))

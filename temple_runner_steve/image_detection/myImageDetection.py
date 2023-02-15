@@ -37,6 +37,19 @@ model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/e
 
 global_list = []
 
+def get_ten_frames():
+   ten_frames = []
+   
+   screenshot = wincap.get_screenshot()
+   results = model(screenshot)    
+   re_def = results.pandas().xyxy
+   one_frame = get_BB_cords(re_def)
+   
+   while len(ten_frames) < 10:
+      ten_frames.append(one_frame)
+      
+   return ten_frames
+
 while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
@@ -50,9 +63,9 @@ while(True):
        global_list.append(one_frame)
     else:
        # average_ten_frames(global_list)
-       print("----------------------------------------------------------------------")
+       # print("----------------------------------------------------------------------")
        global_list.clear()
-       print(f'global_list: {len(global_list)}')
+       # print(f'global_list: {len(global_list)}')
        global_list.append(one_frame)
 
     #cv.imshow('Image Detection', screenshot)
