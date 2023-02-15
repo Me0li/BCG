@@ -44,6 +44,8 @@ while(True):
     re_df = results.pandas().xyxy[0]
     one_frame = get_BB_cords(re_df)
 
+
+    # returns list of last 10 frames
     if len(global_list) < 10:
        global_list.append(one_frame)
        print(f'global_list: {len(global_list)}')
