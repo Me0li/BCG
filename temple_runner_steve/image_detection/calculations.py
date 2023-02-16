@@ -53,14 +53,15 @@ class Calculations:
         # TODO: Caculate collision cours of player <-> coin
         if self.player == True and self.coin == True:
             player_coin_collision = self.collision_with_entity(self.player_cords, self.coin_cords)
-            if player_coin_collision == True:
-                reward +=5
+            if self.player_coin_collision == True:
+                self.reward = 5
+            
         
         # TODO: Caculate collision cours of player <-> obstacle
         if self.player == True and self.obstacle == True:
             player_obstacle_collision = self.collision_with_entity(self.player_cords, self.obstacle_cords)
-            if player_obstacle_collision == True:
-                reward -=6
+            if self.player_obstacle_collision == True:
+                self.reward = -6
     
         # TODO: turnLeft
         # if (turnLeft_cords[1] - turnLeft_cords[0]) > # TODO: How big for turn?
@@ -80,7 +81,7 @@ class Calculations:
         return np.array(state, dtype=int)
 
     # Calculate the average of xmin and xmax of an object in ten frames
-    def average_ten_frames(ten_frames_list):  
+    def average_ten_frames(self, ten_frames_list):  
         cords = {}
         frames_len = len(ten_frames_list)
         for elem in ten_frames_list:
@@ -107,7 +108,7 @@ class Calculations:
             return any([val for key, val in elem.items() if 'explosion' in key])
     
     # Press a key, based on given action
-    def execute_action(action):
+    def execute_action(self, action):
         keyboard = Controller()
     
         if action[0] == 1:

@@ -42,14 +42,15 @@ def get_ten_frames():
    
    screenshot = wincap.get_screenshot()
    results = model(screenshot)    
-   re_def = results.pandas().xyxy
+   re_def = results.pandas().xyxy[0]
+   print(f'The type is: {type(re_def)}')
    one_frame = get_BB_cords(re_def)
    
    while len(ten_frames) < 10:
       ten_frames.append(one_frame)
       
    return ten_frames
-
+'''
 while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
@@ -83,3 +84,5 @@ while(True):
         break
 
 print('Done.')
+
+'''
