@@ -1,43 +1,120 @@
 import numpy as np
+from pynput.keyboard import Key, Controller
 
-def calculate_state(ten_frames):
-    state = []
-    ten_frames_average = average_ten_frames(ten_frames)
+class Calculations:
+    def __init__(self):
+        self.player = False
+        self.player_cords = None
     
-    # TODO: Caclulate collision cours of player <-> obstacle
-    # TODO: Caclulate collision cours of player <-> coin
-    # TODO: Given entities in ten frames
-    # TODO: Arrow Left/Right
+        self.coin = False
+        self.coin_cords = None
     
-    return np.array(state, dtype=int)
+        self.obstacle = False
+        self.obstacle_cords = None
+    
+        self.explosion = False
+    
+        self.turnLeft = False
+        self.turnLeft_cords = None
+    
+        self.turnRight = False
+        self.turnRight_cords = None
+    
+        self.player_obstacle_collision = False
+        self.player_coin_collision = False
+        
+        self.reward = 0
 
-# Calculate the average of xmin and xmax of an object in ten frames
-def average_ten_frames(ten_frames_list):   
-    cords = {}
-    frames_len = len(ten_frames_list)
-    for elem in ten_frames_list:
-        if cords == {}:
-            cords = elem
-        else:
-            cords = {key: [(cords[key][0] + elem[key][0]), (cords[key][1] + elem[key][1])] for key in cords}         
-    cords = {key: [(cords[key][0] / frames_len), (cords[key][1] / frames_len)] for key in cords}
+    def calculate_state(self, ten_frames):
+        state = []
+        # One dictionary with average values of ten captured frames
+        ten_frames_average = self.average_ten_frames(ten_frames)
     
-    return cords   
+        # TODO: Check which entities are in frame
+        for key, value in ten_frames_average.items():
+            if 'player' in key:
+                self.player = True
+                self.player_cords = value
+            if 'coin' in key:
+                self.coin = True
+                self.coin_cords = value
+            if 'obstacle' in key:
+                self.obstacle = True
+                self.obstacle_cords = value
+            if 'explosion' in key:
+                self.explosion = True
+            if 'turnLeft' in key:
+                self.turnLeft = True
+                self.turnLeft_cords = value
+            if 'turnRight' in key:
+                self.turnRight = True
+                self.turnRight_cords = value
+            
+        # TODO: Caculate collision cours of player <-> coin
+        if self.player == True and self.coin == True:
+            player_coin_collision = self.collision_with_entity(self.player_cords, self.coin_cords)
+            if player_coin_collision == True:
+                reward +=5
+        
+        # TODO: Caculate collision cours of player <-> obstacle
+        if self.player == True and self.obstacle == True:
+            player_obstacle_collision = self.collision_with_entity(self.player_cords, self.obstacle_cords)
+            if player_obstacle_collision == True:
+                reward -=6
     
-# TODO: Check for collision
-def collision(ten_frames_list):
-    pass
+        # TODO: turnLeft
+        # if (turnLeft_cords[1] - turnLeft_cords[0]) > # TODO: How big for turn?
+    
+        # TODO: turnRight
+        # if (turnRight_cords[1] - turnRight_cords[0]) > # TODO: How big for turn?
+    
+        state.append(self.player)
+        state.append(self.coin)
+        state.append(self.obstacle)
+        state.append(self.explosion)
+        state.append(self.turnLeft)
+        state.append(self.turnRight)
+        state.append(self.player_coin_collision)
+        state.append(self.player_obstacle_collision)
 
-# checks if List contains substring 'explosion' => returns bool
-def game_over(ten_frames_list):
-    for elem in ten_frames_list:
-        reward = -10
-        return any([val for key, val in elem.items() if 'explosion' in key])
+        return np.array(state, dtype=int)
+
+    # Calculate the average of xmin and xmax of an object in ten frames
+    def average_ten_frames(ten_frames_list):  
+        cords = {}
+        frames_len = len(ten_frames_list)
+        for elem in ten_frames_list:
+            if cords == {}:
+                cords = elem
+            else:
+                cords = {key: [(cords[key][0] + elem[key][0]), (cords[key][1] + elem[key][1])] for key in cords}         
+        cords = {key: [(cords[key][0] / frames_len), (cords[key][1] / frames_len)] for key in cords}
     
+        return cords   
     
+    # Check for collision
+    def collision_with_entity(player, entity):
+        if player[0] < entity[1] and player[1] > entity[1] \
+            or player[0] < entity[0] and player[1] > entity[0]:
+                return True
+        return False
+        
+
+    # checks if List contains substring 'explosion' => returns bool
+    def game_over(self, ten_frames_list):
+        for elem in ten_frames_list:
+            self.reward = -10
+            return any([val for key, val in elem.items() if 'explosion' in key])
     
+    # Press a key, based on given action
+    def execute_action(action):
+        keyboard = Controller()
     
-    
+        if action[0] == 1:
+            keyboard.press(Key.left)
+        if action[1] == 1:
+            keyboard.press(Key.right)
+        
     
 '''
 Call functions for debugging (remove later)

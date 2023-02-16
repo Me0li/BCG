@@ -1,12 +1,11 @@
-import os
 import torch
 import random
-import numpy as np
 
 from collections import deque
-# TODO: Imports from image_detection
 from image_detection.myImageDetection import get_ten_frames
-from image_detection.calculations import calculate_state
+from image_detection.calculations import Calculations
+
+from model import Linear_QNet, QTrainer
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -18,22 +17,8 @@ class Agent:
         self.epsilon = 0
         self.gamma = 0.9
         self.memory = deque(maxlen=MAX_MEMORY)
-        # self.model = Linear_QNet(11, 256, 3)
-        # TODO: Trainer ?
-        
-    def get_state(self):
-        state = [
-            # TODO: Caclulate collision cours of player <-> obstacle
-            
-            # TODO: Caclulate collision cours of player <-> coin
-        
-            # TODO: Given entities in ten frames
-        
-            # TODO: Arrow Left/Right
-            
-        ]
-        
-        return np.array(state, dtype=int)
+        self.model = Linear_QNet(11, 256, 3)
+        self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
     
     def remember(self, state, action, reward, next_state, game_over):
         self.memory.append((state, action, reward, next_state, game_over))
@@ -56,7 +41,7 @@ class Agent:
         self.epsilon = 80 - self.n_games
         final_move = [0, 0]
         if random.randint(0, 200) < self.epsilon:
-            move = random.randint(0, 2)
+            move = random.randint(0, 1)
             final_move[move] = 1
         else:
             state0 = torch.tensor(state, dtype=torch.float)
@@ -69,10 +54,9 @@ class Agent:
 def train():
         
     agent = Agent()
-    # TODO: Create model variable
-        
-        
-    # TODO:
+    calc = Calculations()
+
+    # Execution:
     # 1) Get 10 frames (from CNN)
     # 2) Get old state (from calculations based on 10 frames) => example: [0,0,1,1,0 ...]
     # 3) Get old action (from DQN with old state) => example: [1,0] = move left, [0,1] = move right
@@ -89,28 +73,24 @@ def train():
         ten_frames = get_ten_frames()
         
         # 2) Get old state (from calculations based on 10 frames) => example: [0,0,1,1,0 ...]
-        state_old = calculate_state(ten_frames)
+        state_old = calc.calculate_state(ten_frames)
         
-        '''
         # 3) Get action (from DQN with old state) => example: [1,0] = move left, [0,1] = move right
-        action = get_action()
-            
+        action = agent.get_action(state_old)
+        
         # 4) + 5) Execute actions in enviroment (through agent input)
-        execute_action(action)
-        '''    
+        calc.execute_action(action)
         
         # 6) Get new 10 frames (from CNN)
         ten_frames.clear()
         ten_frames = get_ten_frames()
         
-        
         # 7) Get new state (from calculations based on new 10 frames) => example: [0,0,1,1,0 ...]
-        state_new = calculate_state(ten_frames)
+        state_new = calc.calculate_state(ten_frames)
         
-        '''
         # 8) Get reward and game_over (from calculations based on state_new)
-        reward = get_reward()
-        game_over = get_game_over()
+        reward = calc.reward
+        game_over = calc.explosion
             
         # 8) Train shot term memory (with old state, old action, new state, rewards and game_over)
         agent.train_short_memory(state_old, action, state_new, reward, game_over)
@@ -120,10 +100,8 @@ def train():
     
         # 10) (Optional): Game Over
         if game_over:
-            agen.train_long_memory()
+            agent.n_games += 1
+            agent.train_long_memory()
             
-            
-        '''
-            
-        pass
-    pass
+if __name__ == '__main__':
+    train()

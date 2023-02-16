@@ -5,10 +5,10 @@ import numpy as np
 import cv2
 import time
 from read_output import get_BB_cords
-from berechnung import check_go
+#from berechnung import check_go
 
 # model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp21/weights/last.pt', force_reload=True)
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='yolov5/runs/train/exp22/weights/last.pt', force_reload=True)
 
 # img = "https://daily.jstor.org/wp-content/uploads/2017/12/traffic_jam_1050x700.jpg"
 img = os.path.join('data', 'images', 'coin.3ccbc13b-a881-11ed-bd69-2cf05d27a47e.jpg')
