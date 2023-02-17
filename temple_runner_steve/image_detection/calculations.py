@@ -88,8 +88,8 @@ class Calculations:
             if cords == {}:
                 cords = elem
             else:
-                cords = {key: [(cords[key][0] + elem[key][0]), (cords[key][1] + elem[key][1])] for key in cords}         
-        cords = {key: [(cords[key][0] / frames_len), (cords[key][1] / frames_len)] for key in cords}
+                cords = {key: [(cords[key][0] + elem[key][0]), (cords[key][1] + elem[key][1])] for key in cords if key in elem}         
+        cords = {key: [(cords[key][0] / frames_len), (cords[key][1] / frames_len)] for key in cords if key in elem}
     
         return cords   
     
@@ -112,9 +112,9 @@ class Calculations:
         keyboard = Controller()
     
         if action[0] == 1:
-            keyboard.press(Key.left)
+            keyboard.press('a')
         if action[1] == 1:
-            keyboard.press(Key.right)
+            keyboard.press('d')
         
     
 '''
