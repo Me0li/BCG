@@ -1,25 +1,26 @@
 # BCG
 Dependencies:
-* CUDA 11.7 
-* Python 3.9
 * Anaconda 2022.05 (10. Mai 2022)
 
-* yolov5
-* cv2
-* numpy
-* time
-* os
-* torch
-* win32gui
-* win32ui
-* win32con
-* pillow
-* uuid
-* sshkeyboard
+Installation Guide (anaconda Prompt):
+1) Create new virtual enviroment <br>
+conda create --name runner_env python=3.9
+2) Activate virtual enviroment <br>
+conda activate runner_env
+3) Install libraries <br>
+pytorch: conda install pytorch torchvision pytorch-cuda=11.7 -c pytorch -c nvidia <br>
+pynput: pip install pynput <br>
+win32gui: pip install pywin32 <br>
+sshkeyboard: pip install sshkeyboard <br>
+4) Navigate to /temple_runner_steve/image_detection/yolov5 and install requierements.txt <br>
+pip install -r requirements.txt <br>
+5) Navigate to /temple_runner_steve and open VScode <br>
+code .
 
-Einrichten und aktivieren der virtuellen Umgebung:<br>
-1) conda create --name <envname> python=3.9 <br>
-2) conda activate <envname> <br>
+Training CNN (with single gpu): <br>
+1) Navigate to /temple_runner_steve/image_detection/yolov5 <br>
+python train.py --img 320 --batch -1 --epochs 5 --data dataset.yml --weights yolov5s.pt --device 0
 
-In der Virtuellen Umgebung Pytorch installieren Installation: <br>
-1) conda install pytorch torchvision pytorch-cuda=11.7 -c pytorch -c nvidia
+Training agent: <br>
+1) Naviagte to /temple_runner_steve/image_detection <br>
+python agent.py <br>
