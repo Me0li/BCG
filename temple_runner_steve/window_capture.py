@@ -1,5 +1,5 @@
 import numpy as np
-import win32gui, win32ui, win32con
+import win32gui
 from PIL import ImageGrab
 import cv2 as cv
 import uuid     # Unique identifier
