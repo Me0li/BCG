@@ -12,15 +12,15 @@ pytorch: conda install pytorch torchvision pytorch-cuda=11.7 -c pytorch -c nvidi
 pynput: pip install pynput <br>
 win32gui: pip install pywin32 <br>
 sshkeyboard: pip install sshkeyboard <br>
-4) Navigate to /temple_runner_steve/image_detection/yolov5 and install requierements.txt <br>
+4) Navigate to /temple_runner_steve/yolov5 and install requierements.txt <br>
 pip install -r requirements.txt <br>
 5) Navigate to /temple_runner_steve and open VScode <br>
 code .
 
 Training CNN (with single gpu): <br>
-1) Navigate to /temple_runner_steve/image_detection/yolov5 <br>
+1) Navigate to /temple_runner_steve/yolov5 <br>
 python train.py --img 320 --batch -1 --epochs 5 --data dataset.yml --weights yolov5s.pt --device 0
 
 Training agent: <br>
-1) Naviagte to /temple_runner_steve/image_detection <br>
+1) Naviagte to /temple_runner_steve/ <br>
 python agent.py <br>
